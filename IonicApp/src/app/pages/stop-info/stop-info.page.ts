@@ -22,8 +22,6 @@ export class StopInfoPage implements OnInit {
     private fav:FavoritesService, 
     private alertController:AlertController ) {
 
-    fav.load();
-
     this.id = route.snapshot.paramMap.get("id");
 
     for (let entry of fav.favStops){
