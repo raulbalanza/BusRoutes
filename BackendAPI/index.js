@@ -3,8 +3,6 @@ const parser = require("xml2json");
 const http = require("http");
 const app = express();
 
-const fs = require('fs');
-
 app.get("/stop/:stopId", (req, res) => {
 
     const id = req.params.stopId;
@@ -58,7 +56,6 @@ app.get("/line/:lineId", (req, res) => {
         resp.on('end', () => {
 
             try {
-				console.log(data)
                 result = parser.toJson(data);
             } catch (e) { console.log("Exception: " + e); }
 
