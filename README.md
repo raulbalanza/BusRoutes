@@ -11,7 +11,7 @@ It is made by two components:
 
 ## About the backend API
 
-Some of the endpoints used to develop this application are not public, so they have been removed from the version that can be found on this repository. Instead, an example response coming from those endpoints has been provided in the ```BackendAPI/dataExamples``` folder. The application will not work unless working endpoints are set in the ```BackendAPI/index.js``` file.
+Some of the endpoints used to develop this application are not public, so they have been removed from the version that can be found on this repository. Instead, they have been replaced by a sample static response from my private server. The application will return the same information for any query unless actual endpoints are set in the ```BackendAPI/index.js``` file.
 
 ## Installation
 

@@ -1,6 +1,11 @@
+/*
+*   In this code, original endpoints have been replaced by a static
+*   data sample, as the original APIs are not public.
+*/
+
 const express = require("express");
 const parser = require("xml2json");
-const http = require("http");
+const http = require("https");
 const app = express();
 
 app.get("/stop/:stopId", (req, res) => {
@@ -12,7 +17,7 @@ app.get("/stop/:stopId", (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
     
-    http.get(/* API ENDPOINT GOES HERE */, (resp) => {
+    http.get("https://theraulxp.es/busroutes/examples/stop_stopId.xml" /* Static info */, (resp) => {
 
         let data = '';
         let result = "";
@@ -43,7 +48,7 @@ app.get("/line/:lineId", (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
     
-    http.get(/* API ENDPOINT GOES HERE */, (resp) => {
+    http.get("https://theraulxp.es/busroutes/examples/line_lineId.xml" /* Static info */, (resp) => {
         let data = '';
         let result = "";
 
@@ -75,7 +80,7 @@ app.get("/bus/:busLine", (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
     
-    http.get(/* API ENDPOINT GOES HERE */, (resp) => {
+    http.get("https://theraulxp.es/busroutes/examples/bus_busLine.json" /* Static info */, (resp) => {
 
         let data = '';
         let buses = "";
