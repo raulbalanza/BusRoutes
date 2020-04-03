@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Stop {{ id }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="getScheduleInfo()">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list *ngIf="info">
+    <ion-list-header>
+      <ion-label><b>Next arrivals</b></ion-label>
+    </ion-list-header>
+
+    <ion-item *ngFor="let bus of info.solo_parada.bus">
+      <ion-avatar slot="start">
+        <img src="{{ lineImgBase }}/{{ bus.linea }}littleW.gif">
+      </ion-avatar>
+      <ion-label>
+        <h3>{{ bus.destino }}</h3>
+        <p>{{ timeLeft(bus) }}</p>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+  <!-- fab placed to the bottom end -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon *ngIf="isFav" (click)="switchFavorite()" name="star"></ion-icon>
+      <ion-icon *ngIf="!isFav" (click)="switchFavorite()" name="star-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

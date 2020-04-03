@@ -1,0 +1,56 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Map</ion-title>
+    <ion-buttons *ngIf="type !== 'stops'" slot="end">
+      <ion-button (click)="reloadInfo()">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Map</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    
+    <div id="map"></div>
+
+  <ion-card *ngIf="type === 'stops'" id="stopInfo">
+    <ion-row style="margin: 10px 10px 10px 10px;">
+      <ion-col size="2">
+        <img src="../../../assets/img/stop.png">
+      </ion-col>
+      <ion-col style="text-align: left;">
+        <p><b>Stop no.:</b> {{ stopNumber }}</p>
+        <!-- <p><b>Lines:</b> {{ stopNumber }}</p> -->
+        <ion-button (click)="getStopDetails()" color="primary">Details</ion-button>
+        <ion-button (click)="openInGMaps()" color="secondary">Google Maps</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <ion-card *ngIf="type === 'bus'" id="stopInfo">
+    <ion-row style="margin: 10px 10px 10px 10px;">
+      <ion-col size="2">
+        <img src="../../../assets/img/bus.png">
+      </ion-col>
+      <ion-col style="text-align: left;">
+        <p style="text-align: center;">{{ bus.tra }}</p>
+        <p><b>Bus ID:</b> {{ bus.cod }}</p>
+        <p><b>Next stop:</b> {{ bus.pSig }}</p>
+        <!-- <ion-button (click)="getStopDetails()" color="primary">Details</ion-button>
+        <ion-button (click)="openInGMaps()" color="secondary">Google Maps</ion-button> -->
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  </div>
+</ion-content>

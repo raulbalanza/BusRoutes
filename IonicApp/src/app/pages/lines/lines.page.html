@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Lines</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Lines</ion-title>
+    </ion-toolbar>
+  </ion-header>
+    
+  <ion-list *ngIf="busLines">
+
+    <ion-item (click)="askOptions(bus)" *ngFor="let bus of busLines">
+      <ion-avatar slot="start">
+        <img src="{{ lineImgBase }}/{{ bus.linea }}littleW.gif">
+      </ion-avatar>
+      <ion-label>
+        <h3>{{ bus.tr1 }}</h3>
+        <h3>{{ bus.tr2 }}</h3>
+      </ion-label>
+    </ion-item>
+  
+    </ion-list>
+</ion-content>
