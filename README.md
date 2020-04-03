@@ -5,9 +5,7 @@ It is made by two components:
 - A *frontend* component (the **mobile application** itself), coded using Ionic (Angular-based)
 - A *backend* component (an **API**, that gets information and parses it appropriately), coded using Node
 
-<p align="center">
-   [ [Screenshot gallery](https://theraulxp.es/busroutes/) ]
-</p>
+[ [Screenshot gallery](https://theraulxp.es/busroutes/) ]
 
 ![Bus Routes](https://theraulxp.es/legacy/app_landing.png)
 
