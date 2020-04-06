@@ -13,9 +13,10 @@ export class LinesPage implements OnInit {
   lineImgBase = "http://www.emtvalencia.es/EmtEsquemas_graphics/line-icons/";
   busLines:any[];
 
-  constructor( private toastController:ToastController, private router:Router, private map:MapService ) { 
-
-    this.busLines = map.getBusLines();
+  constructor( 
+    private toastController:ToastController, 
+    private router:Router, 
+    private map:MapService ) { 
 
   }
 
@@ -46,6 +47,12 @@ export class LinesPage implements OnInit {
   }
 
   ngOnInit() {
+  
+    fetch('./assets/data/lines.json').then(res => res.json())
+    .then(json => {
+      this.busLines = json;
+    });
+
   }
 
 }

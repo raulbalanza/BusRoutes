@@ -34,10 +34,8 @@ export class MapPage implements OnInit {
 
     this.bus = { tra: "Select a bus", cod: "-", pSig: "-" };
 
-    mapboxgl.accessToken = "pk.eyJ1IjoidGhlcmF1bHhwIiwiYSI6ImNqeGRpbnZlYjAyMzUzcnMwYjRyamE5dDUifQ.xnO52vASfal6uD07AtnPkQ";
-
     if (this.type === "stops"){
-
+  
       this.service.getStops().subscribe((data:any) => { 
       
         let utm = new utmlatlng();
@@ -60,20 +58,17 @@ export class MapPage implements OnInit {
 
       });
 
-    }    
+    }
 
   }
 
   ionViewDidEnter() {
 
-    this.map = new mapboxgl.Map({
+    setTimeout(() => {
+      
+      this.map = this.service.initMap();
 
-      container: 'map',
-      center: [-0.3773900, 39.4697500],
-      zoom: 13,
-      style: 'mapbox://styles/mapbox/streets-v11' 
-
-    });
+    }, 100);
 
     this.map.on("load", () => {
 
@@ -83,7 +78,7 @@ export class MapPage implements OnInit {
 
   }
 
-  loadInfoMap(){
+  loadInfoMap() {
 
     if (this.type === "stops"){
 
@@ -146,7 +141,6 @@ export class MapPage implements OnInit {
       this.map.on("click", "paradas", (e) => {
 
         this.bus = e.features[0].properties;
-        // console.log(this.bus);
 
       });
 
