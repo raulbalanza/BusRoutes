@@ -68,13 +68,13 @@ export class MapPage implements OnInit {
       
       this.map = this.service.initMap();
 
+      this.map.on("load", () => {
+
+        this.loadInfoMap();
+  
+      });
+
     }, 100);
-
-    this.map.on("load", () => {
-
-      this.loadInfoMap();
-
-    });
 
   }
 
