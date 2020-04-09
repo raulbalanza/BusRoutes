@@ -7,6 +7,7 @@ const express = require("express");
 const parser = require("xml2json");
 const utmlatlng = require("utm-latlng");
 const http = require("http");
+const https = require("https");
 
 const app = express();
 const utm = new utmlatlng();
@@ -69,7 +70,7 @@ app.get("/stop/:stopId", (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
     
-    http.get("https://theraulxp.es/busroutes/examples/stop_stopId.xml" /* Static info */, (resp) => {
+    https.get("https://theraulxp.es/busroutes/examples/stop_stopId.xml" /* Static info */, (resp) => {
 
         let data = '';
 
@@ -99,7 +100,7 @@ app.get("/line/:lineId", (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
     
-    http.get("https://theraulxp.es/busroutes/examples/line_lineId.xml" /* Static info */, (resp) => {
+    https.get("https://theraulxp.es/busroutes/examples/line_lineId.xml" /* Static info */, (resp) => {
         let data = '';
 
         // A chunk of data has been received
@@ -130,7 +131,7 @@ app.get("/bus/:busLine", (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
     
-    http.get("https://theraulxp.es/busroutes/examples/bus_busLine.json" /* Static info */, (resp) => {
+    https.get("https://theraulxp.es/busroutes/examples/bus_busLine.json" /* Static info */, (resp) => {
 
         let data = '';
         let buses = "";
