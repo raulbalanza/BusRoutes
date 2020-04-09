@@ -1,3 +1,8 @@
+/*
+*   In this code, original endpoints have been replaced by a static
+*   data sample, as the original APIs are not public.
+*/
+
 const express = require("express");
 const parser = require("xml2json");
 const utmlatlng = require("utm-latlng");
