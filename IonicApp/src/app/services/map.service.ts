@@ -42,7 +42,7 @@ export class MapService {
 
   getStops(){
     
-    return this.http.get("http://mapas.valencia.es/lanzadera/opendata/Emt_paradas/JSON");
+    return this.http.get(`${ this.API_BASEURL }/stop_list`);
 
   }
 

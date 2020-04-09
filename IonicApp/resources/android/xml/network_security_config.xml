@@ -2,7 +2,7 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
-		<!-- <domain includeSubdomains="true">YOUR DOMAIN</domain> -->
+        <!-- <domain includeSubdomains="true">YOUR DOMAIN</domain> -->
 		<domain includeSubdomains="true">emtvalencia.es</domain>
 		<domain includeSubdomains="true">mapas.valencia.es</domain>
     </domain-config>

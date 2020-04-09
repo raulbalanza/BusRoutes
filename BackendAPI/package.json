@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "utm-latlng": "^1.0.6",
     "xml2json": "^0.12.0"
   }
 }

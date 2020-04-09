@@ -1,18 +1,65 @@
-/*
-*   In this code, original endpoints have been replaced by a static
-*   data sample, as the original APIs are not public.
-*/
-
 const express = require("express");
 const parser = require("xml2json");
-const http = require("https");
+const utmlatlng = require("utm-latlng");
+const http = require("http");
+
 const app = express();
+const utm = new utmlatlng();
+
+function date(){
+
+    let d = new Date();
+
+    return "(" + parse(d.getDate()) + "/" + parse(d.getMonth()+1) + "/" + d.getFullYear() + " - " + 
+        parse(d.getHours()) + ":" + parse(d.getMinutes()) + ":" + parse(d.getSeconds()) + ")";
+
+}
+
+function parse(number){
+
+    return (number >= 10) ? number : "0" + number;
+
+}
+
+app.get("/stop_list", (req, res) => {
+
+    console.log(date() + " [" + req.connection.remoteAddress + "] Getting stop list");
+
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Content-Type', 'application/json');
+    
+    http.get(`http://mapas.valencia.es/lanzadera/opendata/Emt_paradas/JSON`, (resp) => {
+
+        let data = "";
+
+        // A chunk of data has been received
+        resp.on('data', (chunk) => {
+          data += chunk;
+        });
+      
+        // The whole response has been received.
+        resp.on('end', () => {
+            data = JSON.parse(data);
+            
+            for (let dat of data.features){
+  
+                let newCoords = utm.convertUtmToLatLng(dat.geometry.coordinates[0], dat.geometry.coordinates[1], 30, "S");
+                dat.geometry.coordinates = [newCoords.lng, newCoords.lat];
+        
+            }
+
+            res.send(data);
+        });
+
+    });
+
+});
 
 app.get("/stop/:stopId", (req, res) => {
 
     const id = req.params.stopId;
 
-    console.log(new Date().toString() + " Getting data for stop " + id);
+    console.log(date() + " [" + req.connection.remoteAddress + "] Getting data for stop " + id);
 
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
@@ -20,7 +67,6 @@ app.get("/stop/:stopId", (req, res) => {
     http.get("https://theraulxp.es/busroutes/examples/stop_stopId.xml" /* Static info */, (resp) => {
 
         let data = '';
-        let result = "";
 
         // A chunk of data has been received
         resp.on('data', (chunk) => {
@@ -30,9 +76,9 @@ app.get("/stop/:stopId", (req, res) => {
         // The whole response has been received.
         resp.on('end', () => {
             try {
-                result = parser.toJson(data);
+                data = parser.toJson(data);
             } catch (e) { console.log("Exception: " + e); }
-            res.send(result);
+            res.send(data);
         });
 
     });
@@ -43,14 +89,13 @@ app.get("/line/:lineId", (req, res) => {
 
     const id = req.params.lineId;
 
-    console.log(new Date().toString() + " Getting data for line " + id);
+    console.log(date() + " [" + req.connection.remoteAddress + "] Getting data for line " + id);
 
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
     
     http.get("https://theraulxp.es/busroutes/examples/line_lineId.xml" /* Static info */, (resp) => {
         let data = '';
-        let result = "";
 
         // A chunk of data has been received
         resp.on('data', (chunk) => {
@@ -61,10 +106,10 @@ app.get("/line/:lineId", (req, res) => {
         resp.on('end', () => {
 
             try {
-                result = parser.toJson(data);
+                data = parser.toJson(data);
             } catch (e) { console.log("Exception: " + e); }
 
-            res.send(result);
+            res.send(data);
         });
 
     });
@@ -75,7 +120,7 @@ app.get("/bus/:busLine", (req, res) => {
 
     const id = req.params.busLine;
 
-    console.log(new Date().toString() + " Getting data for buses of line " + id);
+    console.log(date() + " [" + req.connection.remoteAddress + "] Getting data for buses of line " + id);
 
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
@@ -144,5 +189,5 @@ app.get('/', function (req, res) {
   });
 
 app.listen(5001, () => {
-    console.log("Server running in port 5001");
+    console.log(date() + " Server running on port 5001");
 });

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-import * as utmlatlng from 'utm-latlng';
 import { MapService } from 'src/app/services/map.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -37,25 +36,13 @@ export class MapPage implements OnInit {
     if (this.type === "stops"){
   
       this.service.getStops().subscribe((data:any) => { 
-      
-        let utm = new utmlatlng();
-        
-        for (let dat of data.features){
-  
-          let newCoords = utm.convertUtmToLatLng(dat.geometry.coordinates[0], dat.geometry.coordinates[1], 30, "S");
-          dat.geometry.coordinates = [newCoords.lng, newCoords.lat];
-  
-        }
-        
         this.stops = data;
       });
 
     } else {
 
       this.service.getBusLocation(this.id).subscribe((data:any) => {
-
         this.buses = data;
-
       });
 
     }
@@ -74,7 +61,7 @@ export class MapPage implements OnInit {
   
       });
 
-    }, 100);
+    }, 500);
 
   }
 
