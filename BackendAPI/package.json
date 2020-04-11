@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,5 +14,8 @@
     "express": "^4.17.1",
     "utm-latlng": "^1.0.6",
     "xml2json": "^0.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
   }
 }

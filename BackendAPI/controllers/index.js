@@ -1,40 +1,29 @@
-/*
-*   In this code, original endpoints have been replaced by a static
-*   data sample, as the original APIs are not public.
-*/
-
-const express = require("express");
 const parser = require("xml2json");
-const utmlatlng = require("utm-latlng");
 const http = require("http");
 const https = require("https");
+const utmlatlng = require("utm-latlng");
+const date = require("../modules/date");
+const endpoints = require("../modules/endpoints");
 
-const app = express();
 const utm = new utmlatlng();
 
-function date(){
-
-    let d = new Date();
-
-    return "(" + parse(d.getDate()) + "/" + parse(d.getMonth()+1) + "/" + d.getFullYear() + " - " + 
-        parse(d.getHours()) + ":" + parse(d.getMinutes()) + ":" + parse(d.getSeconds()) + ")";
-
-}
-
-function parse(number){
-
-    return (number >= 10) ? number : "0" + number;
-
-}
-
-app.get("/stop_list", (req, res) => {
+const getStopList = (req, res) => {
 
     console.log(date() + " [" + req.connection.remoteAddress + "] Getting stop list");
 
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
     
-    http.get(`http://mapas.valencia.es/lanzadera/opendata/Emt_paradas/JSON`, (resp) => {
+    let con;
+    const ep = endpoints.stopList();
+
+    if (ep.isSecure){
+        con = https;
+    } else {
+        con = http;
+    }
+
+    con.get(ep.endpoint, (resp) => {
 
         let data = "";
 
@@ -59,9 +48,9 @@ app.get("/stop_list", (req, res) => {
 
     });
 
-});
+};
 
-app.get("/stop/:stopId", (req, res) => {
+const getStopInfo = (req, res) => {
 
     const id = req.params.stopId;
 
@@ -70,7 +59,16 @@ app.get("/stop/:stopId", (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
     
-    https.get("https://theraulxp.es/busroutes/examples/stop_stopId.xml" /* Static info */, (resp) => {
+    let con;
+    const ep = endpoints.stopInfo(id);
+
+    if (ep.isSecure){
+        con = https;
+    } else {
+        con = http;
+    }
+
+    con.get(ep.endpoint, (resp) => {
 
         let data = '';
 
@@ -89,9 +87,9 @@ app.get("/stop/:stopId", (req, res) => {
 
     });
 
-});
+};
 
-app.get("/line/:lineId", (req, res) => {
+const getLineInfo = (req, res) => {
 
     const id = req.params.lineId;
 
@@ -100,7 +98,16 @@ app.get("/line/:lineId", (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
     
-    https.get("https://theraulxp.es/busroutes/examples/line_lineId.xml" /* Static info */, (resp) => {
+    let con;
+    const ep = endpoints.lineInfo(id);
+
+    if (ep.isSecure){
+        con = https;
+    } else {
+        con = http;
+    }
+
+    con.get(ep.endpoint, (resp) => {
         let data = '';
 
         // A chunk of data has been received
@@ -120,9 +127,9 @@ app.get("/line/:lineId", (req, res) => {
 
     });
 
-});
+};
 
-app.get("/bus/:busLine", (req, res) => {
+const getLinePosition = (req, res) => {
 
     const id = req.params.busLine;
 
@@ -131,7 +138,16 @@ app.get("/bus/:busLine", (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Content-Type', 'application/json');
     
-    https.get("https://theraulxp.es/busroutes/examples/bus_busLine.json" /* Static info */, (resp) => {
+    let con;
+    const ep = endpoints.linePosition(id);
+
+    if (ep.isSecure){
+        con = https;
+    } else {
+        con = http;
+    }
+
+    con.get(ep.endpoint, (resp) => {
 
         let data = '';
         let buses = "";
@@ -188,12 +204,6 @@ app.get("/bus/:busLine", (req, res) => {
 
     });
 
-});
+};
 
-app.get('/', function (req, res) {
-    res.send('You must call the API with the appropriate parameters.');
-  });
-
-app.listen(5001, () => {
-    console.log(date() + " Server running on port 5001");
-});
+module.exports = { getStopList, getStopInfo, getLineInfo, getLinePosition };
